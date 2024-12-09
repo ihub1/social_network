@@ -208,14 +208,14 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
+      font-family: 'Roboto', sans-serif; /* Modern font */
     }
 
     body {
-      font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: #f0f2f5;
+      background: linear-gradient(135deg, #f0f2f5, #dbe9f4); /* Gradient background */
       width: 100%;
       box-sizing: border-box;
     }
@@ -223,45 +223,70 @@
     #auth-section, #signup-section {
       width: 100%;
       height: 100%;
-      background: #fff;
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 30px;
       box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+      border-radius: 15px;
     }
 
-    /* Enlarge buttons and inputs on both login and signup screens */
     #auth-section input, #signup-section input, 
     #auth-section button, #signup-section button {
-      font-size: 20px;
-      padding: 10px;
-      margin: 10px 0;
+      font-size: 18px;
+      padding: 12px;
+      margin: 12px 0;
       width: 250px;
+      border: 1px solid #ddd;
+      border-radius: 30px; /* Rounded inputs and buttons */
+      transition: all 0.3s ease;
+    }
+
+    #auth-section input:focus, #signup-section input:focus {
+      border-color: #1a73e8; /* Highlight color on focus */
+      box-shadow: 0 0 5px rgba(26, 115, 232, 0.5); /* Focus effect */
+    }
+
+    #auth-section button, #signup-section button {
+      background: linear-gradient(135deg, #1a73e8, #42a5f5); /* Gradient background */
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      border-radius: 30px;
+    }
+
+    #auth-section button:hover, #signup-section button:hover {
+      background: linear-gradient(135deg, #42a5f5, #1a73e8); /* Hover effect */
     }
 
     .input-left-shift {
       transform: translateX(-10px);
     }
 
-   #chat-section {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  background: #fff;
-  height: 100%;
-  box-sizing: border-box;
-  position: relative; /* Keep this for proper positioning */
-}
+    #chat-section {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      background: #ffffff;
+      height: 100%;
+      box-sizing: border-box;
+      position: relative;
+    }
 
-.chat-header {
+    .chat-header {
   width: 100%;
   background: #1a73e8;
   color: white;
   display: flex;
-  justify-content: flex-end; /* Align items to the right */
+  justify-content: flex-end;  /* Align the content to the right */
   padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for header */
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 #logout-btn {
@@ -269,67 +294,89 @@
   border: none;
   color: white;
   font-size: 24px;
-  margin-right: 10px; /* Move the button slightly to the left from the right edge */
-}
-
-#messages {
-  flex-grow: 1;
-  padding: 10px;
-  overflow-y: auto;
-  background-color: #f9f9f9;
-  margin-bottom: 10px;
-}
-
-.message {
-  padding: 10px;
-  margin-bottom: 5px;
-  background-color: #e4e6eb;
-  border-radius: 5px;
-}
-
-.delete-btn {
-  margin-left: 10px;
-  background: none;
-  border: none;
-  color: red;
-  font-size: 16px;
   cursor: pointer;
+  margin-right: 10px; /* Move the button slightly to the left */
 }
 
-.message-input-section {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
-  position: absolute; /* Positioning the input section at the bottom */
-  bottom: 0;
-  width: 100%;
-  box-sizing: border-box;
-}
 
-#message-input {
-  width: 80%;
-  padding: 10px;
-  font-size: 16px;
-  margin-right: 10px;
-  border-radius: 20px;
-}
+    #messages {
+      flex-grow: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #f9f9f9;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Soft shadow for messages */
+    }
 
-#send-btn {
-  padding: 10px;
-  font-size: 18px;
-  background-color: #1a73e8;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-}
+    .message {
+      padding: 12px;
+      margin-bottom: 8px;
+      background-color: #e4e6eb;
+      border-radius: 10px;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05); /* Soft shadow for messages */
+    }
 
-#send-btn i {
-  font-size: 20px;
-}
+    .delete-btn {
+      margin-left: 10px;
+      background: none;
+      border: none;
+      color: red;
+      font-size: 16px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
 
+    .delete-btn:hover {
+      color: #d32f2f; /* Hover effect for delete */
+    }
+
+    .message-input-section {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background-color: #ffffff;
+      border-top: 1px solid #ddd;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      box-sizing: border-box;
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+
+    #message-input {
+      width: 80%;
+      padding: 12px;
+      font-size: 16px;
+      margin-right: 12px;
+      border-radius: 30px;
+      border: 1px solid #ddd;
+      transition: all 0.3s ease;
+    }
+
+    #message-input:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 0 5px rgba(26, 115, 232, 0.5);
+    }
+
+    #send-btn {
+      padding: 12px;
+      font-size: 18px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #send-btn:hover {
+      background-color: #42a5f5; /* Hover effect for send button */
+    }
+
+    #send-btn i {
+      font-size: 20px;
+    }
   </style>
-</body>
 </html>
