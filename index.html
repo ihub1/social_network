@@ -235,7 +235,6 @@
     #auth-section button, #signup-section button {
       background-color: #4CAF50;
       color: white;
-      border: none;
       cursor: pointer;
     }
 
@@ -244,69 +243,75 @@
     }
 
     #chat-section {
-      width: 100%;
-      height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 20px;
-      background: #f0f2f5;
-      position: fixed;
-      top: 0;
-      left: 0;
-      display: none;
-    }
-
-    .message-input-section {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .message-input-section input {
-      flex: 1;
-      padding: 15px;
-      font-size: 20px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      background: #f9f9f9;
-    }
-
-    .message-input-section button {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 20px;
-      border-radius: 8px;
-      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      background: white;
+      padding: 10px;
+      box-sizing: border-box;
+      position: relative;
     }
 
     .chat-header {
-      width: 100%;
       display: flex;
       justify-content: flex-end;
-      padding: 10px;
+    }
+
+   .message-input-section {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-input-section input {
+  width: 70%; /* Reduce the width to 70% */
+  font-size: 16px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-right: 10px; /* Add some space between the input and the send button */
+}
+
+.message-input-section button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.message-input-section button:hover {
+  background-color: #45a049;
+}
+
+
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      padding-bottom: 60px; /* Ensure there's space for the input area */
     }
 
     .message {
-      background-color: #f9f9f9;
-      margin: 5px 0;
-      padding: 10px;
+      background-color: #f1f1f1;
       border-radius: 8px;
-      width: 100%;
-    }
-
-    .message-text {
-      display: block;
-      margin: 5px 0;
+      margin: 10px 0;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .delete-btn {
-      background: transparent;
+      background: none;
       border: none;
       color: red;
       cursor: pointer;
