@@ -82,7 +82,7 @@
 
     signupBtn.addEventListener("click", () => {
       authSection.style.display = "none";
-      signupSection.style.display = "flex"; // Use flex to make it occupy full screen
+      signupSection.style.display = "flex";
     });
 
     backToLoginBtn.addEventListener("click", () => {
@@ -106,10 +106,9 @@
           const userRef = doc(db, "users", user.uid);
           await setDoc(userRef, { username: username });
 
-          // Hide the signup section and show the chat section immediately
           signupSection.style.display = "none";
-          chatSection.style.display = "block";  
-          listenForMessages();  // Start listening for messages
+          chatSection.style.display = "block";
+          listenForMessages();
         })
         .catch((err) => alert(err.message));
     });
@@ -172,7 +171,6 @@
             <span>${timestamp.toDate().toLocaleString()}</span>
             <button class="delete-btn" onclick="deleteMessage('${doc.id}')">🗑️</button>
           `;
-
           messagesDiv.appendChild(messageDiv);
         });
 
@@ -192,7 +190,6 @@
   </script>
 
   <style>
-    /* Global Styles */
     html, body {
       margin: 0;
       padding: 0;
@@ -210,8 +207,7 @@
       box-sizing: border-box;
     }
 
-    /* Full-screen Signup Section */
-    #signup-section {
+    #auth-section, #signup-section {
       width: 100%;
       height: 100%;
       background: white;
@@ -223,22 +219,30 @@
       box-sizing: border-box;
     }
 
-    /* Adjust the auth section for a better fit */
-    #auth-section {
+    /* Enlarge buttons and inputs on both login and signup screens */
+    #auth-section input, #signup-section input, 
+    #auth-section button, #signup-section button {
+      font-size: 20px;
+      padding: 15px 20px;
       width: 100%;
-      max-width: 100%;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
-      position: absolute; /* Position the auth section in the middle */
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      max-width: 400px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    /* Chat Section */
+    #auth-section button, #signup-section button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #auth-section button:hover, #signup-section button:hover {
+      background-color: #45a049;
+    }
+
     #chat-section {
       width: 100%;
       height: 100%;
@@ -248,14 +252,12 @@
       align-items: center;
       padding: 20px;
       background: #f0f2f5;
-      box-sizing: border-box;
-      position: fixed; /* Keep chat section fixed */
+      position: fixed;
       top: 0;
       left: 0;
-      display: none; /* Hidden by default */
+      display: none;
     }
 
-    /* Keep the message input section at the bottom */
     .message-input-section {
       position: fixed;
       bottom: 20px;
@@ -267,7 +269,8 @@
 
     .message-input-section input {
       flex: 1;
-      padding: 10px;
+      padding: 15px;
+      font-size: 20px;
       border-radius: 8px;
       border: 1px solid #ddd;
       background: #f9f9f9;
@@ -277,7 +280,7 @@
       background-color: #4CAF50;
       border: none;
       color: white;
-      padding: 10px 15px;
+      padding: 15px 20px;
       border-radius: 8px;
       cursor: pointer;
     }
