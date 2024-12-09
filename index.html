@@ -114,7 +114,14 @@
     });
 
     logoutBtn.addEventListener("click", () => {
-      signOut(auth).then(() => toggleSection(false));
+      signOut(auth).then(() => {
+        toggleSection(false);
+        // Shift input fields to the left after logout
+        const inputFields = document.querySelectorAll('#email, #password');
+        inputFields.forEach(field => {
+          field.classList.add("input-left-shift");
+        });
+      });
     });
 
     sendBtn.addEventListener("click", sendMessage);
@@ -154,6 +161,12 @@
       } else {
         authSection.style.display = "block";
         chatSection.style.display = "none";
+
+        // Reset the position of the input fields when returning to login/signup
+        const inputFields = document.querySelectorAll('#email, #password');
+        inputFields.forEach(field => {
+          field.classList.remove("input-left-shift"); // Remove the class to reset position
+        });
       }
     }
 
@@ -210,7 +223,7 @@
     #auth-section, #signup-section {
       width: 100%;
       height: 100%;
-      background: white;
+      background: #fff;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -223,94 +236,100 @@
     #auth-section input, #signup-section input, 
     #auth-section button, #signup-section button {
       font-size: 20px;
-      padding: 15px 20px;
-      width: 100%;
-      max-width: 400px;
+      padding: 10px;
       margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      width: 250px;
     }
 
-    #login-btn, #signup-submit-btn, #back-to-login-btn {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
+    .input-left-shift {
+      transform: translateX(-10px);
     }
 
-    #login-btn:hover, #signup-submit-btn:hover, #back-to-login-btn:hover {
-      background-color: #45a049;
-    }
+   #chat-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative; /* Keep this for proper positioning */
+}
 
-    #chat-section {
-      width: 100%;
-      height: 100%;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 30px;
-      box-sizing: border-box;
-      display: none;
-      position: relative;
-    }
+.chat-header {
+  width: 100%;
+  background: #1a73e8;
+  color: white;
+  display: flex;
+  justify-content: flex-end; /* Align items to the right */
+  padding: 10px;
+}
 
-    .message-input-section {
-      position: absolute;
-      bottom: 20px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      padding: 5px;
-      box-sizing: border-box;
-    }
+#logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  margin-right: 10px; /* Move the button slightly to the left from the right edge */
+}
 
-    #message-input {
-      width: 60%;  /* Reduced width */
-      padding: 10px;  /* Reduced padding */
-      font-size: 14px;  /* Reduced font size */
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      margin-right: 10px;
-    }
+#messages {
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+}
 
-    #send-btn {
-      background-color: #4CAF50;
-      color: white;
-      border-radius: 50%;
-      border: none;
-      font-size: 18px;  /* Reduced font size */
-      padding: 10px;  /* Reduced padding */
-      cursor: pointer;
-    }
+.message {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #e4e6eb;
+  border-radius: 5px;
+}
 
-    #send-btn:hover {
-      background-color: #45a049;
-    }
+.delete-btn {
+  margin-left: 10px;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    #messages {
-      width: 100%;
-      max-height: 60vh;
-      overflow-y: auto;
-      margin-top: 20px;
-    }
+.message-input-section {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  position: absolute; /* Positioning the input section at the bottom */
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-    .message {
-      background-color: #f9f9f9;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 10px 0;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    }
+#message-input {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+  border-radius: 20px;
+}
 
-    .delete-btn {
-      background: none;
-      border: none;
-      color: #e74c3c;
-      cursor: pointer;
-    }
+#send-btn {
+  padding: 10px;
+  font-size: 18px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#send-btn i {
+  font-size: 20px;
+}
+
   </style>
 </body>
 </html>
