@@ -82,7 +82,7 @@
 
     signupBtn.addEventListener("click", () => {
       authSection.style.display = "none";
-      signupSection.style.display = "block";
+      signupSection.style.display = "flex"; // Use flex to make it occupy full screen
     });
 
     backToLoginBtn.addEventListener("click", () => {
@@ -90,30 +90,29 @@
       signupSection.style.display = "none";
     });
 
-   signupSubmitBtn.addEventListener("click", () => {
-  const email = document.getElementById("email-signup").value;
-  const password = document.getElementById("password-signup").value;
-  const username = document.getElementById("username-signup").value.trim();
+    signupSubmitBtn.addEventListener("click", () => {
+      const email = document.getElementById("email-signup").value;
+      const password = document.getElementById("password-signup").value;
+      const username = document.getElementById("username-signup").value.trim();
 
-  if (!username) {
-    alert("Please choose a username.");
-    return;
-  }
+      if (!username) {
+        alert("Please choose a username.");
+        return;
+      }
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      const user = userCredential.user;
-      const userRef = doc(db, "users", user.uid);
-      await setDoc(userRef, { username: username });
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+          const user = userCredential.user;
+          const userRef = doc(db, "users", user.uid);
+          await setDoc(userRef, { username: username });
 
-      // Hide the signup section and show the chat section immediately
-      signupSection.style.display = "none"; // Hide the signup section
-      chatSection.style.display = "block";  // Show the chat section
-      listenForMessages();  // Start listening for messages
-    })
-    .catch((err) => alert(err.message));
-});
-
+          // Hide the signup section and show the chat section immediately
+          signupSection.style.display = "none";
+          chatSection.style.display = "block";  
+          listenForMessages();  // Start listening for messages
+        })
+        .catch((err) => alert(err.message));
+    });
 
     logoutBtn.addEventListener("click", () => {
       signOut(auth).then(() => toggleSection(false));
@@ -211,63 +210,57 @@
       box-sizing: border-box;
     }
 
-    /* Auth and Chat Sections */
-    #auth-section, #chat-section {
+    /* Full-screen Signup Section */
+    #signup-section {
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    /* Adjust the auth section for a better fit */
+    #auth-section {
       width: 100%;
       max-width: 100%;
       background: white;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-      margin-top: 100px;
       box-sizing: border-box;
+      position: absolute; /* Position the auth section in the middle */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
-    #messages {
-      height: 300px;
-      overflow-y: auto;
-      border: 1px solid #ddd;
-      padding: 15px;
-      margin-bottom: 20px;
-      background: #f9f9f9;
+    /* Chat Section */
+    #chat-section {
       width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px;
+      background: #f0f2f5;
+      box-sizing: border-box;
+      position: fixed; /* Keep chat section fixed */
+      top: 0;
+      left: 0;
+      display: none; /* Hidden by default */
     }
 
-    .message {
-      padding: 5px 10px;
-      border-radius: 8px;
-      background: #e0f7fa;
-      margin-bottom: 10px;
-      max-width: 80%;
-      position: relative;
-    }
-
-    .message strong {
-      color: #00796b;
-    }
-
-    .message-text {
-      display: block;
-      color: #004d40;
-    }
-
-    .message span {
-      font-size: 12px;
-      color: #888;
-      margin-left: 5px;
-    }
-
-    .delete-btn {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      color: #f44336;
-    }
-
+    /* Keep the message input section at the bottom */
     .message-input-section {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
       display: flex;
       gap: 10px;
     }
@@ -289,25 +282,31 @@
       cursor: pointer;
     }
 
-    /* Sign-Up Section */
-    .username-section {
+    .chat-header {
+      width: 100%;
       display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      justify-content: flex-end;
+      padding: 10px;
     }
 
-    #choose-username-btn {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 10px 15px;
+    .message {
+      background-color: #f9f9f9;
+      margin: 5px 0;
+      padding: 10px;
       border-radius: 8px;
-      cursor: pointer;
+      width: 100%;
     }
 
-    #choose-username-btn:hover {
-      background-color: #45a049;
+    .message-text {
+      display: block;
+      margin: 5px 0;
+    }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: red;
+      cursor: pointer;
     }
   </style>
 </body>
