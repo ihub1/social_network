@@ -99,8 +99,8 @@
       }
 
       #user-list-items {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid; /* Use grid layout for the user list */
+        grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
         gap: 5px;
         padding: 0;
         list-style: none;
@@ -223,7 +223,6 @@
         getDoc,
         deleteDoc,
       } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-
       const firebaseConfig = {
         apiKey: "AIzaSyCDse1EY3HCAo5nLOFErEpOi5j3_-K1RTE",
         authDomain: "social-network-b0619.firebaseapp.com",
@@ -231,14 +230,12 @@
         storageBucket: "social-network-b0619.firebasestorage.app",
         messagingSenderId: "868066934438",
         appId: "1:868066934438:web:65e53342a862a6b8d63e67",
-        measurementId: "G-MBC24SRCVM"
+        measurementId: "G-MBC24SRCVM",
       };
-
       const app = initializeApp(firebaseConfig);
       const auth = getAuth();
       const db = getFirestore();
       const usersCollection = collection(db, "users");
-
       const loginBtn = document.getElementById("login-btn");
       const logoutBtn = document.getElementById("logout-btn");
       const authSection = document.getElementById("auth-section");
@@ -255,7 +252,6 @@
       const signupForm = document.getElementById("signup-form");
 
       let currentConversationId = null;
-
       loginBtn.addEventListener("click", () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
@@ -267,17 +263,14 @@
           })
           .catch((err) => alert(err.message));
       });
-
       signupBtn.addEventListener("click", () => {
         loginForm.style.display = "none";
         signupForm.style.display = "block";
       });
-
       backToLoginBtn.addEventListener("click", () => {
         signupForm.style.display = "none";
         loginForm.style.display = "block";
       });
-
       signupSubmitBtn.addEventListener("click", () => {
         const email = document.getElementById("email-signup").value;
         const password = document.getElementById("password-signup").value;
@@ -293,7 +286,7 @@
             const user = userCredential.user;
 
             const userRef = doc(db, "users", user.uid);
-            await setDoc(userRef, { username: username });
+            await setDoc(userRef, {username: username});
 
             // After successful signup, automatically log in the user
             signInWithEmailAndPassword(auth, email, password)
@@ -312,7 +305,6 @@
           window.location.href = "index.html"; // Assuming "index.html" is your login page
         });
       });
-
       function toggleSection(loggedIn) {
         if (loggedIn) {
           authSection.style.display = "none";
@@ -369,14 +361,14 @@
         onSnapshot(q, (snapshot) => {
           messagesDiv.innerHTML = "";
           snapshot.forEach((doc) => {
-            const { text, sender, timestamp } = doc.data();
+            const {text, sender, timestamp} = doc.data();
             const messageDiv = document.createElement("div");
             messageDiv.className = "message";
             messageDiv.innerHTML = `
                             <strong>${sender}:</strong>
                             <span class="message-text">${text}</span>
                             <span>${timestamp.toDate().toLocaleString()}</span>
-                            <button class="delete-btn" data-message-id="${doc.id}">Delete</button>
+                        <button class="delete-btn" data-message-id="${doc.id}">Delete</button>
                         `;
             messagesDiv.appendChild(messageDiv);
 
@@ -417,7 +409,6 @@
         const userRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userRef);
         const username = userDoc.exists() ? userDoc.data().username : user.email;
-
         try {
           await addDoc(collection(db, "conversations", currentConversationId, "messages"), {
             text: message,
