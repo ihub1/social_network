@@ -20,7 +20,7 @@ import {
 
 // Your Firebase configuration
 const firebaseConfig = {
-apiKey: "AIzaSyCDse1EY3HCAo5nLOFErEpOi5j3_-K1RTE",
+  apiKey: "AIzaSyCDse1EY3HCAo5nLOFErEpOi5j3_-K1RTE",
   authDomain: "social-network-b0619.firebaseapp.com",
   projectId: "social-network-b0619",
   storageBucket: "social-network-b0619.firebasestorage.app",
@@ -39,19 +39,16 @@ const loginBtn = document.getElementById("login-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const authSection = document.getElementById("auth-section");
 const chatSection = document.getElementById("chat-section");
-
 const messageInput = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-btn");
 const messagesDiv = document.getElementById("messages");
 const currentChatUser = document.getElementById("current-chat-user");
 const signupBtn = document.getElementById("signup-btn");
-
 const signupSubmitBtn = document.getElementById("signup-submit-btn");
 const backToLoginBtn = document.getElementById("back-to-login-btn");
 const loginForm = document.getElementById("login-form");
 const signupForm = document.getElementById("signup-form");
 const userSearchInput = document.getElementById("user-search-input");
-
 const userSearchResults = document.getElementById("user-search-results");
 
 // Global variables
@@ -165,7 +162,8 @@ async function startPrivateChat(userId, username) {
   const user1 = auth.currentUser.uid;
   const user2 = userId;
   const conversationId =
-    user1 < user2 ? `${user1}-${user2}` : `${user2}-${user1}`;
+    user1 < user2 ?
+    `${user1}-${user2}` : `${user2}-${user1}`;
   currentConversationId = conversationId;
   currentChatUser.textContent = `Chatting with: ${username}`;
   // Clear unread messages for this conversation
@@ -178,12 +176,10 @@ async function startPrivateChat(userId, username) {
     conversationId,
     "messages"
   );
-
   listenForPrivateMessages(conversationId);
   sendBtn.onclick = async () => {
     const messageText = messageInput.value;
     if (messageText.trim() === "") return;
-
     messageInput.value = "";
     try {
       await addDoc(messagesCollection, {
@@ -205,7 +201,6 @@ function listenForPrivateMessages(conversationId) {
     conversationId,
     "messages"
   );
-
   const q = query(messagesCollection, orderBy("timestamp"));
   onSnapshot(q, (snapshot) => {
     snapshot.docChanges().forEach((change) => {
@@ -246,20 +241,18 @@ function appendMessage(text, sender, timestamp) {
   // Display the username based on the sender
   const username =
     sender === "you"
-      ? currentUsername
+      ?
+      currentUsername
       : currentChatUser.textContent.replace("Chatting with: ", "");
-
   // Format timestamp to a readable format
   const formattedTimestamp = new Date(
     timestamp.seconds * 1000
   ).toLocaleString();
-
   // Add the username and timestamp to the message
   messageDiv.innerHTML = `
         <p class="message-text"><span class="username">${username}:</span> ${text}</p>
         <span class="message-timestamp">${formattedTimestamp}</span>
     `;
-
   messagesDiv.appendChild(messageDiv);
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
