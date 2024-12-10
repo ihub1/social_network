@@ -1,427 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LonyiChat</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f9;
-        height: 100vh;
-        overflow: hidden;
-      }
 
-      #auth-section {
-        max-width: 500px;
-        margin: 0 auto;
-        padding: 20px;
-        border-radius: 8px;
-        background-color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LonyiChat</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-      #chat-section {
-        max-width: 500px;
-        margin: 0 auto;
-        padding: 20px;
-        border-radius: 8px;
-        background-color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        height: 400px;
-        /* Now only applies to the chat section */
-      }
+    #auth-section {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-      /* ... other styles ... */
+    #chat-section {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      height: 400px;
+      /* Now only applies to the chat section */
+    }
 
-      #messages {
-        height: 200px;
-        overflow-y: auto;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 8px;
-      }
+    h1 {
+      text-align: center;
+    }
 
-      /* ... other styles ... */
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-      h1 {
-        text-align: center;
-      }
+    button {
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
 
-      input {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
+    button:hover {
+      background-color: #0056b3;
+    }
 
-      button {
-        padding: 10px;
-        width: 100%;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-        background-color: #007bff;
-        color: white;
-        border-radius: 4px;
-        margin-top: 10px;
-      }
+    .chat-header {
+      display: flex;
+      justify-content: flex-end;
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      z-index: 100;
+    }
 
-      button:hover {
-        background-color: #0056b3;
-      }
+    .chat-header button {
+      background-color: red !important;
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      font-size: 16px;
+      width: auto;
+      cursor: pointer;
+    }
 
-      .chat-header {
-        display: flex;
-        justify-content: flex-end;
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        z-index: 100;
-      }
+    #user-search-bar {
+      margin-bottom: 10px;
+    }
 
-      .chat-header button {
-        background-color: red !important;
-        border: 1px solid #ccc;
-        padding: 5px 10px;
-        font-size: 16px;
-        width: auto;
-        cursor: pointer;
-      }
+    #user-search-results {
+      padding: 0;
+      list-style: none;
+      max-height: 200px;
+      /* Limit the height of the results list */
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-      #user-list-items {
-        display: grid; /* Use grid layout for the user list */
-        grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
-        gap: 5px;
-        padding: 0;
-        list-style: none;
-      }
+    #user-search-results li {
+      cursor: pointer;
+      padding: 5px 10px;
+      border-bottom: 1px solid #eee;
+    }
 
-      #user-list-items li {
-        cursor: pointer;
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 14px;
-        white-space: nowrap;
-      }
+    #messages {
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 8px;
+    }
 
-      #messages {
-        height: 300px;
-        overflow-y: auto;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 8px;
-      }
+    .message {
+      margin-bottom: 15px;
+      padding: 5px;
+      border-bottom: 1px solid #eee;
+    }
 
-      .message {
-        margin-bottom: 15px;
-        padding: 5px;
-        border-bottom: 1px solid #eee;
-      }
+    .message-text {
+      font-size: 14px;
+    }
 
-      .message-text {
-        font-size: 14px;
-      }
+    .message span {
+      font-size: 12px;
+      color: gray;
+    }
 
-      .message span {
-        font-size: 12px;
-        color: gray;
-      }
+    .message-input-section {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      /* Adjust margin as needed */
+    }
 
-      .message-input-section {
-        display: flex;
-        align-items: center;
-        margin-top: 120px;
-      }
+    .message-input-section input {
+      flex-grow: 1;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+    }
 
-      .message-input-section input {
-        flex-grow: 1;
-        padding: 10px;
-        font-size: 16px;
-        border-radius: 4px;
-      }
+    .message-input-section button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      width: 50px;
+      margin-top: -2px;
+    }
 
-      .message-input-section button {
-        background-color: #007bff;
-        color: white;
-        padding: 10px;
-        font-size: 16px;
-        border: none;
-        border-radius: 4px;
-        width: 50px;
-        margin-top: -2px;
-      }
+    .message-input-section button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
 
-      .message-input-section button:hover {
-        background-color: #0056b3;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="auth-section">
-      <div id="login-form">
-        <h1>Welcome to LonyiChat</h1>
-        <input type="email" id="email" placeholder="Enter your email" />
-        <input type="password" id="password" placeholder="Enter your password" />
-        <button id="login-btn">Login</button>
-        <button id="signup-btn">Sign Up</button>
-      </div>
-
-      <div id="signup-form" style="display: none;">
-        <h1>Sign Up</h1>
-        <input type="text" id="username-signup" placeholder="Choose a username" />
-        <input type="email" id="email-signup" placeholder="Enter your email" />
-        <input type="password" id="password-signup" placeholder="Enter your password" />
-        <button id="signup-submit-btn">Create Account</button>
-        <button id="back-to-login-btn">Back to Login</button>
-      </div>
+<body>
+  <div id="auth-section">
+    <div id="login-form">
+      <h1>Welcome to LonyiChat</h1>
+      <input type="email" id="email" placeholder="Enter your email">
+      <input type="password" id="password" placeholder="Enter your password">
+      <button id="login-btn">Login</button>
+      <button id="signup-btn">Sign Up</button>
     </div>
 
-    <div id="user-list">
-      <ul id="user-list-items"></ul>
+    <div id="signup-form" style="display: none;">
+      <h1>Sign Up</h1>
+      <input type="text" id="username-signup" placeholder="Choose a username">
+      <input type="email" id="email-signup" placeholder="Enter your email">
+      <input type="password" id="password-signup" placeholder="Enter your password">
+      <button id="signup-submit-btn">Create Account</button>
+      <button id="back-to-login-btn">Back to Login</button>
+    </div>
+  </div>
+
+  <div id="chat-section" style="display: none">
+    <div class="chat-header">
+      <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
 
-    <div id="chat-section" style="display: none">
-      <div class="chat-header">
-        <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-      </div>
-      <div id="messages"></div>
-      <div class="message-input-section">
-        <input type="text" id="message-input" placeholder="Type a message" />
-        <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
-      </div>
+    <div id="user-search-bar">
+      <input type="text" id="user-search-input" placeholder="Search for a user">
     </div>
+    <ul id="user-search-results"></ul>
 
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-      import {
-        getAuth,
-        signInWithEmailAndPassword,
-        createUserWithEmailAndPassword,
-        signOut,
-      } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-      import {
-        getFirestore,
-        collection,
-        addDoc,
-        onSnapshot,
-        query,
-        orderBy,
-        doc,
-        setDoc,
-        getDoc,
-        deleteDoc,
-      } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-      const firebaseConfig = {
-        apiKey: "AIzaSyCDse1EY3HCAo5nLOFErEpOi5j3_-K1RTE",
-        authDomain: "social-network-b0619.firebaseapp.com",
-        projectId: "social-network-b0619",
-        storageBucket: "social-network-b0619.firebasestorage.app",
-        messagingSenderId: "868066934438",
-        appId: "1:868066934438:web:65e53342a862a6b8d63e67",
-        measurementId: "G-MBC24SRCVM",
-      };
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth();
-      const db = getFirestore();
-      const usersCollection = collection(db, "users");
-      const loginBtn = document.getElementById("login-btn");
-      const logoutBtn = document.getElementById("logout-btn");
-      const authSection = document.getElementById("auth-section");
-      const chatSection = document.getElementById("chat-section");
-      const userList = document.getElementById("user-list-items");
-      const messageInput = document.getElementById("message-input");
-      const sendBtn = document.getElementById("send-btn");
-      const messagesDiv = document.getElementById("messages");
+    <div id="messages"></div>
+    <div class="message-input-section">
+      <input type="text" id="message-input" placeholder="Type a message">
+      <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
 
-      const signupBtn = document.getElementById("signup-btn");
-      const signupSubmitBtn = document.getElementById("signup-submit-btn");
-      const backToLoginBtn = document.getElementById("back-to-login-btn");
-      const loginForm = document.getElementById("login-form");
-      const signupForm = document.getElementById("signup-form");
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      signOut,
+    } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      doc,
+      setDoc,
+      getDoc,
+      deleteDoc,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-      let currentConversationId = null;
-      loginBtn.addEventListener("click", () => {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+    const firebaseConfig = {
+      apiKey: "AIzaSyCDse1EY3HCAo5nLOFErEpOi5j3_-K1RTE",
+  authDomain: "social-network-b0619.firebaseapp.com",
+  projectId: "social-network-b0619",
+  storageBucket: "social-network-b0619.firebasestorage.app",
+  messagingSenderId: "868066934438",
+  appId: "1:868066934438:web:65e53342a862a6b8d63e67",
+  measurementId: "G-MBC24SRCVM"
+    };
 
-        signInWithEmailAndPassword(auth, email, password)
-          .then(() => {
-            fetchUsers();
-            toggleSection(true);
-          })
-          .catch((err) => alert(err.message));
-      });
-      signupBtn.addEventListener("click", () => {
-        loginForm.style.display = "none";
-        signupForm.style.display = "block";
-      });
-      backToLoginBtn.addEventListener("click", () => {
-        signupForm.style.display = "none";
-        loginForm.style.display = "block";
-      });
-      signupSubmitBtn.addEventListener("click", () => {
-        const email = document.getElementById("email-signup").value;
-        const password = document.getElementById("password-signup").value;
-        const username = document.getElementById("username-signup").value.trim();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+    const usersCollection = collection(db, "users");
 
-        if (!username) {
-          alert("Please choose a username.");
-          return;
-        }
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+    const authSection = document.getElementById("auth-section");
+    const chatSection = document.getElementById("chat-section");
+    const messageInput = document.getElementById("message-input");
+    const sendBtn = document.getElementById("send-btn");
+    const messagesDiv = document.getElementById("messages");
 
-        createUserWithEmailAndPassword(auth, email, password)
-          .then(async (userCredential) => {
-            const user = userCredential.user;
+    const signupBtn = document.getElementById("signup-btn");
+    const signupSubmitBtn = document.getElementById("signup-submit-btn");
+    const backToLoginBtn = document.getElementById("back-to-login-btn");
+    const loginForm = document.getElementById("login-form");
+    const signupForm = document.getElementById("signup-form");
+    const userSearchInput = document.getElementById("user-search-input");
+    const userSearchResults = document.getElementById("user-search-results");
 
-            const userRef = doc(db, "users", user.uid);
-            await setDoc(userRef, {username: username});
+    let currentConversationId = null;
 
-            // After successful signup, automatically log in the user
-            signInWithEmailAndPassword(auth, email, password)
-              .then(() => {
-                fetchUsers();
-                toggleSection(true);
-              })
-              .catch((err) => alert(err.message));
-          })
-          .catch((err) => alert(err.message));
-      });
+    loginBtn.addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-      logoutBtn.addEventListener("click", () => {
-        signOut(auth).then(() => {
-          // Redirect to the login screen after logout
-          window.location.href = "index.html"; // Assuming "index.html" is your login page
-        });
-      });
-      function toggleSection(loggedIn) {
-        if (loggedIn) {
-          authSection.style.display = "none";
-          chatSection.style.display = "block";
-        } else {
-          authSection.style.display = "block";
-          chatSection.style.display = "none";
-        }
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          toggleSection(true);
+        })
+        .catch((err) => alert(err.message));
+    });
+
+    signupBtn.addEventListener("click", () => {
+      loginForm.style.display = "none";
+      signupForm.style.display = "block";
+    });
+
+    backToLoginBtn.addEventListener("click", () => {
+      signupForm.style.display = "none";
+      loginForm.style.display = "block";
+    });
+
+    signupSubmitBtn.addEventListener("click", () => {
+      const email = document.getElementById("email-signup").value;
+      const password = document.getElementById("password-signup").value;
+      const username = document.getElementById("username-signup").value.trim();
+
+      if (!username) {
+        alert("Please choose a username.");
+        return;
       }
 
-      function fetchUsers() {
-        userList.innerHTML = "";
-        const q = query(usersCollection);
-        onSnapshot(q, (snapshot) => {
-          if (snapshot.empty) {
-            userList.innerHTML = "<li>No users found.</li>";
-          } else {
-            snapshot.forEach((doc) => {
-              const username = doc.data().username;
-              const userId = doc.id;
-              if (userId !== auth.currentUser.uid && username !== "ExampleUser") {
-                const userItem = document.createElement("li");
-                userItem.textContent = username;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+          const user = userCredential.user;
+          const userRef = doc(db, "users", user.uid);
+          await setDoc(userRef, { username: username });
 
-                userItem.addEventListener("click", () =>
-                  startPrivateChat(userId, username)
-                );
-                userList.appendChild(userItem);
-              }
-            });
-          }
-        });
-      }
+          signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+              toggleSection(true);
+            })
+            .catch((err) => alert(err.message));
+        })
+        .catch((err) => alert(err.message));
+    });
 
-      async function startPrivateChat(userId, username) {
-        const user = auth.currentUser;
-        const conversationId =
-          user.uid < userId ? `${user.uid}-${userId}` : `${userId}-${user.uid}`;
-        currentConversationId = conversationId;
+    logoutBtn.addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    });
 
-        chatSection.style.display = "block";
+    function toggleSection(loggedIn) {
+      if (loggedIn) {
         authSection.style.display = "none";
-        listenForPrivateMessages(conversationId);
+        chatSection.style.display = "block";
+      } else {
+        authSection.style.display = "block";
+        chatSection.style.display = "none";
       }
+    }
 
-      function listenForPrivateMessages(conversationId) {
-        const messagesCollection = collection(
-          db,
-          "conversations",
-          conversationId,
-          "messages"
-        );
-        const q = query(messagesCollection, orderBy("timestamp"));
-        onSnapshot(q, (snapshot) => {
-          messagesDiv.innerHTML = "";
-          snapshot.forEach((doc) => {
-            const {text, sender, timestamp} = doc.data();
-            const messageDiv = document.createElement("div");
-            messageDiv.className = "message";
-            messageDiv.innerHTML = `
-                            <strong>${sender}:</strong>
-                            <span class="message-text">${text}</span>
-                            <span>${timestamp.toDate().toLocaleString()}</span>
-                        <button class="delete-btn" data-message-id="${doc.id}">Delete</button>
-                        `;
-            messagesDiv.appendChild(messageDiv);
+    userSearchInput.addEventListener("input", async () => {
+      const searchTerm = userSearchInput.value.trim().toLowerCase();
+      userSearchResults.innerHTML = "";
 
-            // Add event listener to delete button
-            const deleteBtn = messageDiv.querySelector(".delete-btn");
-            deleteBtn.addEventListener("click", () =>
-              deleteMessage(conversationId, doc.id)
-            );
-          });
-          setTimeout(() => {
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-          }, 100);
+      if (searchTerm) {
+        const q = query(usersCollection);
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+          const username = doc.data().username.toLowerCase();
+          const userId = doc.id;
+          if (username.includes(searchTerm) && userId !== auth.currentUser.uid) {
+            const userItem = document.createElement("li");
+            userItem.textContent = doc.data().username;
+            userItem.addEventListener("click", () => startPrivateChat(userId, doc.data().username));
+            userSearchResults.appendChild(userItem);
+          }
         });
       }
+    });
 
-      async function deleteMessage(conversationId, messageId) {
-        if (confirm("Are you sure you want to delete this message?")) {
-          try {
-            await deleteDoc(
-              doc(db, "conversations", conversationId, "messages", messageId)
-            );
-          } catch (error) {
-            console.error("Error deleting message:", error);
-          }
-        }
-      }
 
-      async function sendPrivateMessage() {
-        if (!currentConversationId) {
-          alert("No conversation selected.");
-          return;
-        }
+    async function startPrivateChat(userId, username) {
+      const user = auth.currentUser;
+      const conversationId = user.uid < userId ? `${user.uid}-${userId}` : `${userId}-${user.uid}`;
+      currentConversationId = conversationId;
 
-        const message = messageInput.value.trim();
-        if (!message) return;
+      chatSection.style.display = "block";
+      authSection.style.display = "none";
+      listenForPrivateMessages(conversationId);
+    }
 
-        const user = auth.currentUser;
-        const userRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userRef);
-        const username = userDoc.exists() ? userDoc.data().username : user.email;
+    function listenForPrivateMessages(conversationId) {
+      const messagesCollection = collection(db, "conversations", conversationId, "messages");
+      const q = query(messagesCollection, orderBy("timestamp"));
+
+      onSnapshot(q, (snapshot) => {
+        messagesDiv.innerHTML = "";
+        snapshot.forEach((doc) => {
+          const { text, sender, timestamp } = doc.data();
+          const messageDiv = document.createElement("div");
+          messageDiv.className = "message";
+          messageDiv.innerHTML = `
+                      <strong>${sender}:</strong>
+                      <span class="message-text">${text}</span>
+                      <span>${timestamp.toDate().toLocaleString()}</span>
+                      <button class="delete-btn" data-message-id="${doc.id}">Delete</button>
+                  `;
+          messagesDiv.appendChild(messageDiv);
+
+          const deleteBtn = messageDiv.querySelector(".delete-btn");
+          deleteBtn.addEventListener("click", () => deleteMessage(conversationId, doc.id));
+        });
+
+        setTimeout(() => {
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }, 100);
+      });
+    }
+
+    async function deleteMessage(conversationId, messageId) {
+      if (confirm("Are you sure you want to delete this message?")) {
         try {
-          await addDoc(collection(db, "conversations", currentConversationId, "messages"), {
-            text: message,
-            timestamp: new Date(),
-            sender: username,
-          });
-          messageInput.value = "";
+          await deleteDoc(doc(db, "conversations", conversationId, "messages", messageId));
         } catch (error) {
-          console.error("Error sending message:", error);
+          console.error("Error deleting message:", error);
         }
       }
+    }
 
-      sendBtn.addEventListener("click", sendPrivateMessage);
-    </script>
-  </body>
+    async function sendPrivateMessage() {
+      if (!currentConversationId) {
+        alert("No conversation selected.");
+        return;
+      }
+
+      const message = messageInput.value.trim();
+      if (!message) return;
+
+      const user = auth.currentUser;
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+      const username = userDoc.exists() ? userDoc.data().username : user.email;
+
+      try {
+        await addDoc(collection(db, "conversations", currentConversationId, "messages"), {
+          text: message,
+          timestamp: new Date(),
+          sender: username,
+        });
+        messageInput.value = "";
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    }
+
+    sendBtn.addEventListener("click", sendPrivateMessage);
+  </script>
+</body>
+
 </html>
