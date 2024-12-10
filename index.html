@@ -18,25 +18,25 @@
         overflow: hidden;
       }
 
-      #auth-section,
-#signup-section {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+      #auth-section {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-#chat-section {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 400px; /* Now only applies to the chat section */
-}
+      #chat-section {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        height: 400px;
+        /* Now only applies to the chat section */
+      }
 
       /* ... other styles ... */
 
@@ -170,24 +170,22 @@
   </head>
   <body>
     <div id="auth-section">
-      <h1>Welcome to LonyiChat</h1>
-      <input type="email" id="email" placeholder="Enter your email" />
-      <input type="password" id="password" placeholder="Enter your password" />
-      <button id="login-btn">Login</button>
-      <button id="signup-btn">Sign Up</button>
-    </div>
+      <div id="login-form">
+        <h1>Welcome to LonyiChat</h1>
+        <input type="email" id="email" placeholder="Enter your email" />
+        <input type="password" id="password" placeholder="Enter your password" />
+        <button id="login-btn">Login</button>
+        <button id="signup-btn">Sign Up</button>
+      </div>
 
-    <div id="signup-section" style="display: none">
-      <h1>Sign Up</h1>
-      <input type="email" id="email-signup" placeholder="Enter your email" />
-      <input
-        type="password"
-        id="password-signup"
-        placeholder="Enter your password"
-      />
-      <input type="text" id="username-signup" placeholder="Choose a username" />
-      <button id="signup-submit-btn">Create Account</button>
-      <button id="back-to-login-btn">Back to Login</button>
+      <div id="signup-form" style="display: none;">
+        <h1>Sign Up</h1>
+        <input type="text" id="username-signup" placeholder="Choose a username" />
+        <input type="email" id="email-signup" placeholder="Enter your email" />
+        <input type="password" id="password-signup" placeholder="Enter your password" />
+        <button id="signup-submit-btn">Create Account</button>
+        <button id="back-to-login-btn">Back to Login</button>
+      </div>
     </div>
 
     <div id="user-list">
@@ -233,7 +231,7 @@
         storageBucket: "social-network-b0619.firebasestorage.app",
         messagingSenderId: "868066934438",
         appId: "1:868066934438:web:65e53342a862a6b8d63e67",
-        measurementId: "G-MBC24SRCVM",
+        measurementId: "G-MBC24SRCVM"
       };
 
       const app = initializeApp(firebaseConfig);
@@ -242,17 +240,19 @@
       const usersCollection = collection(db, "users");
 
       const loginBtn = document.getElementById("login-btn");
-      const signupBtn = document.getElementById("signup-btn");
-      const signupSubmitBtn = document.getElementById("signup-submit-btn");
-      const backToLoginBtn = document.getElementById("back-to-login-btn");
       const logoutBtn = document.getElementById("logout-btn");
       const authSection = document.getElementById("auth-section");
-      const signupSection = document.getElementById("signup-section");
       const chatSection = document.getElementById("chat-section");
       const userList = document.getElementById("user-list-items");
       const messageInput = document.getElementById("message-input");
       const sendBtn = document.getElementById("send-btn");
       const messagesDiv = document.getElementById("messages");
+
+      const signupBtn = document.getElementById("signup-btn");
+      const signupSubmitBtn = document.getElementById("signup-submit-btn");
+      const backToLoginBtn = document.getElementById("back-to-login-btn");
+      const loginForm = document.getElementById("login-form");
+      const signupForm = document.getElementById("signup-form");
 
       let currentConversationId = null;
 
@@ -269,13 +269,13 @@
       });
 
       signupBtn.addEventListener("click", () => {
-        authSection.style.display = "none";
-        signupSection.style.display = "flex";
+        loginForm.style.display = "none";
+        signupForm.style.display = "block";
       });
 
       backToLoginBtn.addEventListener("click", () => {
-        authSection.style.display = "block";
-        signupSection.style.display = "none";
+        signupForm.style.display = "none";
+        loginForm.style.display = "block";
       });
 
       signupSubmitBtn.addEventListener("click", () => {
@@ -293,11 +293,15 @@
             const user = userCredential.user;
 
             const userRef = doc(db, "users", user.uid);
-            await setDoc(userRef, {username: username});
+            await setDoc(userRef, { username: username });
 
-            signupSection.style.display = "none";
-            chatSection.style.display = "block";
-            fetchUsers();
+            // After successful signup, automatically log in the user
+            signInWithEmailAndPassword(auth, email, password)
+              .then(() => {
+                fetchUsers();
+                toggleSection(true);
+              })
+              .catch((err) => alert(err.message));
           })
           .catch((err) => alert(err.message));
       });
@@ -365,15 +369,15 @@
         onSnapshot(q, (snapshot) => {
           messagesDiv.innerHTML = "";
           snapshot.forEach((doc) => {
-            const {text, sender, timestamp} = doc.data();
+            const { text, sender, timestamp } = doc.data();
             const messageDiv = document.createElement("div");
             messageDiv.className = "message";
             messageDiv.innerHTML = `
-                      <strong>${sender}:</strong>
-                      <span class="message-text">${text}</span>
-                      <span>${timestamp.toDate().toLocaleString()}</span>
-                      <button class="delete-btn" data-message-id="${doc.id}">Delete</button>
-                    `;
+                            <strong>${sender}:</strong>
+                            <span class="message-text">${text}</span>
+                            <span>${timestamp.toDate().toLocaleString()}</span>
+                            <button class="delete-btn" data-message-id="${doc.id}">Delete</button>
+                        `;
             messagesDiv.appendChild(messageDiv);
 
             // Add event listener to delete button
