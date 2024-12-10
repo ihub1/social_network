@@ -91,14 +91,15 @@
       cursor: pointer;
     }
 
-    #user-search-bar {
-      margin-bottom: 10px;
-    }
+#user-search-bar {
+  margin: 0 auto;          /* Center horizontally */
+  width: 50%;             /* Adjust width as needed */
+  margin-left: 20px;   /* Add left margin for slight shift */
+}
 
-    #user-search-bar input {
-      width: 70%;
-      /* Adjust the width as needed */
-    }
+#user-search-bar input {
+  width: 100%; 
+}
 
     #user-search-results {
       padding: 0;
@@ -142,23 +143,28 @@
 
 .message-input-section {
   /* ... existing styles ... */
-  position: fixed; /* Keep it fixed at the bottom */
-  bottom: 0;    /* Position it at the very bottom */
-  width: 100%;  /* Make it span the full width */
+  position: fixed;   /* Keep it fixed at the bottom */
+  bottom: 0;        /* Position it at the very bottom */
+  width: 100%;      /* Make it span the full width */
+  display: flex;      /* Use flexbox for layout */
+  align-items: center; /* Align items vertically */
+  padding-left: 20px; /* Add left padding to the section */
 }
 
 .message-input-section input {
   /* ... existing styles ... */
-  padding: 5px; /* Reduce padding */
-  font-size: 14px; /* Slightly smaller font */
-  width: 60%; /* Adjust width as needed */
+  padding: 5px;
+  font-size: 14px;
+  width: 60%;
 }
 
 .message-input-section button {
   /* ... existing styles ... */
-  padding: 5px; /* Reduce padding */
-  font-size: 14px; /* Slightly smaller font */
-  width: 40px; /* Adjust width as needed */
+  padding: 5px;
+  font-size: 14px;
+  width: 40px;       /* Adjust width as needed */
+  margin-top: 0;     /* Remove the negative margin */
+  padding: 10px;    /* Adjust padding to match the input field */
 }
 
     .message-input-section button:hover {
