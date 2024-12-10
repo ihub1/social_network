@@ -25,18 +25,24 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    #chat-section {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 20px;
-      border-radius: 8px;
-      background-color: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      /* Now only applies to the chat section */
-      display: flex;
-      flex-direction: column;
-      /* Arrange elements vertically */
-    }
+   body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#chat-section, {
+  max-width: 100%; /* Fill the entire width */
+  height: 100vh;   /* Fill the entire height */
+  margin: 0;       /* Remove default margin */
+  padding: 20px;    /* Keep the inner padding */
+  border-radius: 0; /* Remove border-radius */
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
     h1 {
       text-align: center;
@@ -111,13 +117,13 @@
     }
 
     #messages {
-      height: 300px;
-      overflow-y: auto;
-      margin-bottom: 10px;
-      border: 1px solid #ddd;
-      padding: 10px;
-      border-radius: 8px;
-    }
+  height: calc(100vh - 190px); /* Adjust the subtraction value as needed */
+  overflow-y: auto;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+}
 
     .message {
       margin-bottom: 15px;
@@ -134,39 +140,26 @@
       color: gray;
     }
 
-    .message-input-section {
-      display: flex;
-      align-items: center;
-      /* Adjust margin as needed */
-      position: fixed;
-      /* Keep it fixed at the bottom */
-      bottom: 0;
-      /* Position it at the very bottom */
-      width: 100%;
-      /* Make it span the full width */
-      margin-top: 0;
-      /* Remove any top margin */
-    }
+.message-input-section {
+  /* ... existing styles ... */
+  position: fixed; /* Keep it fixed at the bottom */
+  bottom: 0;    /* Position it at the very bottom */
+  width: 100%;  /* Make it span the full width */
+}
 
-    .message-input-section input {
-      flex-grow: 1;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 4px;
-      width: 60%;
-      /* Adjust the width as needed */
-    }
+.message-input-section input {
+  /* ... existing styles ... */
+  padding: 5px; /* Reduce padding */
+  font-size: 14px; /* Slightly smaller font */
+  width: 60%; /* Adjust width as needed */
+}
 
-    .message-input-section button {
-      background-color: #007bff;
-      color: white;
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 4px;
-      width: 50px;
-      margin-top: -2px;
-    }
+.message-input-section button {
+  /* ... existing styles ... */
+  padding: 5px; /* Reduce padding */
+  font-size: 14px; /* Slightly smaller font */
+  width: 40px; /* Adjust width as needed */
+}
 
     .message-input-section button:hover {
       background-color: #0056b3;
@@ -347,6 +340,7 @@
       updateSearchResults();
     });
     async function startPrivateChat(userId, username) {
+	userSearchResults.style.display = "none";
       const user1 = auth.currentUser.uid;
       const user2 = userId;
       const conversationId = user1 < user2 ? `${user1}-${user2}` : `${user2}-${user1}`;
