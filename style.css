@@ -1,159 +1,223 @@
+/* General styles */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f9;
-  height: 100vh;
-  overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333; /* Dark text color for better readability */
+    height: 100vh;
+    overflow: hidden;
 }
 
+/* Auth section styles */
 #auth-section {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
+#login-form, #signup-form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+#auth-section h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#auth-section input {
+    width: calc(100% - 22px);
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#auth-section button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+}
+
+#auth-section button:hover {
+    background-color: #0056b3;
+}
+
+/* Chat section styles */
 #chat-section {
-  max-width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 20px;
-  border-radius: 0;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  text-align: center;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 10px;
-  width: 100%;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #0056b3;
+    display: grid;
+    grid-template-rows: 50px auto 70px; /* Adjust the last value as needed */
+    height: 100vh;
 }
 
 .chat-header {
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  z-index: 100;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #f8f9fa; /* Light gray background for header */
+    border-bottom: 1px solid #eee;
 }
 
 .chat-header button {
-  background-color: red !important;
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  font-size: 16px;
-  width: auto;
-  cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 4px;
+}
+
+.chat-header button:hover {
+    background-color: #eee;
 }
 
 #user-search-bar {
-  margin: 0 auto;
-  width: 50%;
-  margin-left: 20px;
+    padding: 10px 20px;
+    background-color: #f8f9fa; /* Light gray background for search bar */
+    border-bottom: 1px solid #eee;
 }
 
 #user-search-bar input {
-  width: 100%;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 #user-search-results {
-  padding: 0;
-  list-style: none;
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    padding: 0;
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 #user-search-results li {
-  cursor: pointer;
-  padding: 5px 10px;
-  border-bottom: 1px solid #eee;
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+#user-search-results li:hover {
+    background-color: #f4f4f9; /* Light gray background on hover */
+}
+
+#current-chat-user {
+    padding: 10px 20px;
+    font-weight: bold;
 }
 
 #messages {
-  height: calc(100vh - 190px);
-  overflow-y: auto;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 8px;
+    padding: 20px;
+    overflow-y: auto;
 }
 
 .message {
-  margin-bottom: 15px;
-  padding: 5px;
-  border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 15px;
 }
 
-.message-text {
-  font-size: 14px;
+.message.you {
+    justify-content: flex-end;
 }
 
-.message span {
-  font-size: 12px;
-  color: gray;
+.message .message-text {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 0 10px;
+    max-width: 70%;
+    word-break: break-word;
+}
+
+.message.them .message-text {
+    background-color: #eee;
+    color: #333;
+}
+
+.message .message-timestamp {
+    font-size: 12px;
+    color: #888;
 }
 
 .message-input-section {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa; 
+    border-top: 1px solid #eee;
+    /* Add these styles to stick it to the bottom */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 .message-input-section input {
-  padding: 10px;
-  font-size: 14px;
-  width: 60%;
+    flex-grow: 0; /* Prevents it from stretching to fill extra space */
+    width: 65%; /* Adjust the width to your desired size */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    box-sizing: border-box;
 }
 
+
 .message-input-section button {
-  padding: 10px;
-  font-size: 14px;
-  width: 40px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .message-input-section button:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
 }
 
-#login-form input[type="email"],
-#login-form input[type="password"] {
-  width: 90%; /* Reduced width for email and password fields */
+/* Profile modal styles */
+#profile-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#login-form button {
-  width: 50%; /* Reduced width for login and signup buttons */
-  display: block; /* Make the buttons block-level elements */
-  margin: 10px auto; /* Center the buttons horizontally */
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
 }
